@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         val recycler = findViewById<FocusedRecyclerView>(R.id.focusedRecycler)
 
         recycler.layoutManager =
-            LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         recycler.adapter = FocusAdapter(
             listOf("One", "Two", "Three", "Four", "Five", "Six")

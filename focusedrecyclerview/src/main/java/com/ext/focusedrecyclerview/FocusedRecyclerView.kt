@@ -14,8 +14,7 @@ class FocusedRecyclerView @JvmOverloads constructor(
     private var minScale = 0.85f
     private var elevationValue = 12f
     private var focusListener: ((Int) -> Unit)? = null
-
-
+    private val snapHelper = CenterSnapHelper()
     private lateinit var effectHelper: FocusEffectHelper
 
     init {
@@ -55,12 +54,13 @@ class FocusedRecyclerView @JvmOverloads constructor(
             elevation = elevationValue
         )
 
+        snapHelper.attachToRecyclerView(this)
+
         addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 effectHelper.apply(focusListener)
             }
         })
-
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
