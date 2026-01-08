@@ -17,6 +17,9 @@ class FocusedRecyclerView @JvmOverloads constructor(
     private val snapHelper = CenterSnapHelper()
     private lateinit var effectHelper: FocusEffectHelper
 
+    private var focusViewListener: ((view: android.view.View, position: Int, isFocused: Boolean) -> Unit)? = null
+
+
     init {
         readAttrs(context, attrs)
         setupRecycler()
@@ -58,18 +61,31 @@ class FocusedRecyclerView @JvmOverloads constructor(
 
         addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                effectHelper.apply(focusListener)
+                effectHelper.apply(
+                    focusListener = focusListener,
+                    focusViewListener = focusViewListener
+                )
             }
         })
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         super.onLayout(changed, l, t, r, b)
-        post { effectHelper.apply(focusListener) }
+        post { effectHelper.apply(
+            focusListener = focusListener,
+            focusViewListener = focusViewListener
+        ) }
     }
 
 
     fun setOnItemFocusListener(listener: (Int) -> Unit) {
         this.focusListener = listener
     }
+
+    fun setOnItemFocusViewListener(
+        listener: (view: android.view.View, position: Int, isFocused: Boolean) -> Unit
+    ) {
+        this.focusViewListener = listener
+    }
+
 }

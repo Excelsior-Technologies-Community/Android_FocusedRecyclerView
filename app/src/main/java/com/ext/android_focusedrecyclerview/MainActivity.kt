@@ -23,14 +23,24 @@ class MainActivity : AppCompatActivity() {
         val recycler = findViewById<FocusedRecyclerView>(R.id.focusedRecycler)
 
         recycler.layoutManager =
-            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+            LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
 
         recycler.adapter = FocusAdapter(
-            listOf("One", "Two", "Three", "Four", "Five", "Six")
+            listOf("One", "Two", "Three", "Four", "Five", "Six","Seven","Eight","Nine","Ten")
         )
 
-        recycler.setOnItemFocusListener { position ->
-            Log.d("FocusedRecycler", "Focused Item: $position")
+        recycler.setOnItemFocusViewListener { view, _, isFocused ->
+
+            val card = view as? com.google.android.material.card.MaterialCardView
+                ?: return@setOnItemFocusViewListener
+
+            if (isFocused) {
+                card.strokeWidth = 3
+                card.strokeColor = getColor(R.color.white)
+            } else {
+                card.strokeWidth = 0
+            }
         }
+
     }
 }
